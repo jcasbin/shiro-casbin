@@ -1,0 +1,12 @@
+shiro-jcasbin:
+  modelPath: src/test/resources/model/rbac_model.conf
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/casbin?serverTimezone=GMT%2B8
+    username: casbin_test
+    password: TEST_casbin
+
+
+

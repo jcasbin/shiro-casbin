@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.casbin.shiro.authorize.rbac.annotation;
+package org.casbin.shiro.authorize.rbac.annotation.auth;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -20,18 +20,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for authentication
+ * Annotation for EnforcerAuth.
  *
  * @author shy
  * @since 2021/01/18
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PreAuth {
-
-    /** the obj (usually means resources) */
-    String obj();
-
-    /** the action (usually means the operation that the user performs on the resource) */
-    String act();
+public @interface EnforcerAuth {
 }

@@ -12,34 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.casbin.shiro.authorize.rbac.annotation;
+package org.casbin.shiro.authorize.rbac.annotation.auth;
 
 import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.aop.AuthorizingAnnotationHandler;
-import org.casbin.jcasbin.main.Enforcer;
-import org.casbin.shiro.authorize.rbac.program.Operation;
+import org.apache.shiro.web.subject.support.WebDelegatingSubject;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 
+import static org.casbin.shiro.factory.EnforcerFactory.getEnforcer;
+
+
 /**
- * Operation class of the PreAuth
+ * Operation class of the EnforcerAuth.
  *
  * @author shy
  * @since 2021/01/19
  */
-public class PreAuthHandler extends AuthorizingAnnotationHandler {
+public class EnforcerAuthHandler extends AuthorizingAnnotationHandler {
 
-    private final Enforcer e;
 
     /**
      * Constructs an <code>AuthorizingAnnotationHandler</code> who processes annotations of the
      * specified type.  Immediately calls <code>super(annotationClass)</code>.
      *
-     * @param e the enforcer.
      */
-    public PreAuthHandler(Enforcer e) {
-        super(PreAuth.class);
-        this.e = e;
+    public EnforcerAuthHandler() {
+        super(EnforcerAuth.class);
     }
 
     /**
@@ -54,12 +55,19 @@ public class PreAuthHandler extends AuthorizingAnnotationHandler {
      */
     @Override
     public void assertAuthorized(Annotation a) throws AuthorizationException {
-        if (a instanceof PreAuth) {
-            PreAuth preAuth = (PreAuth) a;
-            // use jcasbin to judge whether the current login user has the permission.
-            boolean hasPermission = Operation.hasAuthorization(e, preAuth.obj(), preAuth.act());
-            if (!hasPermission) {
-                throw new AuthorizationException("No permission to access this interface");
+        if (a instanceof EnforcerAuth) {
+            WebDelegatingSubject subject = (WebDelegatingSubject) getSubject();
+            if (!subject.isAuthenticated()) {
+                throw new AuthorizationException("Please login");
+            } else {
+                // use jcasbin to judge whether the current login user has the permission.
+                HttpServletRequest request = (HttpServletRequest) subject.getServletRequest();
+                String path = request.getServletPath();
+                String method = request.getMethod();
+                boolean hasPermission = getEnforcer().enforce(subject.getPrincipal().toString(), path, method);
+                if (!hasPermission) {
+                    throw new UnauthorizedException("No permission to access this interface");
+                }
             }
         }
     }

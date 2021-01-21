@@ -15,22 +15,21 @@
 package org.casbin.shiro.advisor;
 
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
-import org.casbin.jcasbin.main.Enforcer;
-import org.casbin.shiro.authorize.rbac.annotation.PreAuth;
-import org.casbin.shiro.authorize.rbac.annotation.interceptor.PreAuthAopInterceptor;
+import org.casbin.shiro.authorize.rbac.annotation.auth.EnforcerAuth;
+import org.casbin.shiro.authorize.rbac.annotation.auth.interceptor.EnforcerAuthAopInterceptor;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import java.lang.reflect.Method;
 
 /**
- * Startup class of the PreAuth
+ * Startup class of the custom permission annotation.
  *
  * @author shy
  * @since 2021/01/19
  */
 public class ShiroAdvisor extends AuthorizationAttributeSourceAdvisor {
-    public ShiroAdvisor(Enforcer e) {
-        setAdvice(new PreAuthAopInterceptor(e));
+    public ShiroAdvisor() {
+        setAdvice(new EnforcerAuthAopInterceptor());
     }
 
     @SuppressWarnings({"unchecked"})
@@ -41,12 +40,11 @@ public class ShiroAdvisor extends AuthorizationAttributeSourceAdvisor {
             m = targetClass.getMethod(m.getName(), m.getParameterTypes());
             return this.isFrameAnnotation(m);
         } catch (NoSuchMethodException ignored) {
-
         }
         return super.matches(method, targetClass);
     }
 
     private boolean isFrameAnnotation(Method method) {
-        return null != AnnotationUtils.findAnnotation(method, PreAuth.class);
+        return null != AnnotationUtils.findAnnotation(method, EnforcerAuth.class);
     }
 }

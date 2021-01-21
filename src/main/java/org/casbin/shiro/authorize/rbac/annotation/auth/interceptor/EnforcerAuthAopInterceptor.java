@@ -12,21 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.casbin.shiro.authorize.rbac.annotation.interceptor;
+package org.casbin.shiro.authorize.rbac.annotation.auth.interceptor;
 
 import org.apache.shiro.spring.aop.SpringAnnotationResolver;
 import org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor;
-import org.casbin.jcasbin.main.Enforcer;
 
 /**
- * AOP section of the PreAuth
+ * AOP section of the EnforcerAuth.
  *
  * @author shy
  * @since 2021/01/19
  */
-public class PreAuthAopInterceptor extends AopAllianceAnnotationsAuthorizingMethodInterceptor {
-    public PreAuthAopInterceptor(Enforcer e) {
+public class EnforcerAuthAopInterceptor extends AopAllianceAnnotationsAuthorizingMethodInterceptor {
+    public EnforcerAuthAopInterceptor() {
         super();
-        this.methodInterceptors.add(new PreAuthMethodInterceptor(e, new SpringAnnotationResolver()));
+        this.methodInterceptors.add(new EnforcerAuthMethodInterceptor(new SpringAnnotationResolver()));
     }
 }
