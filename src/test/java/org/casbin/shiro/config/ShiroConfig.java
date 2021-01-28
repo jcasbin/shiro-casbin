@@ -14,23 +14,37 @@
 
 package org.casbin.shiro.config;
 
-import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.text.IniRealm;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
-import org.casbin.jcasbin.main.Enforcer;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.casbin.shiro.advisor.ShiroAdvisor;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 public class ShiroConfig {
 
-    private final Enforcer e = new Enforcer("example/rbac_model.conf", "example/rbac_policy.csv");
+    @Bean
+    public IniRealm realm() {
+        return new IniRealm("classpath:shiro.ini");
+    }
 
     @Bean
-    public DefaultSecurityManager defaultWebSecurityManager(){
-        return new DefaultSecurityManager();
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
+        ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
+        bean.setSecurityManager(securityManager);
+        return bean;
+    }
+
+    @Bean
+    public DefaultWebSecurityManager securityManager() throws Exception {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(realm());
+        return securityManager;
     }
 
     @Bean
@@ -42,7 +56,7 @@ public class ShiroConfig {
 
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
-        AuthorizationAttributeSourceAdvisor advisor = new ShiroAdvisor(e);
+        AuthorizationAttributeSourceAdvisor advisor = new ShiroAdvisor();
         advisor.setSecurityManager(securityManager);
         return advisor;
     }

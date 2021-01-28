@@ -12,35 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.casbin.shiro.authorize.rbac.annotation.interceptor;
+package org.casbin.shiro.authorize.rbac.annotation.auth.interceptor;
 
 import org.apache.shiro.aop.AnnotationResolver;
 import org.apache.shiro.aop.MethodInvocation;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.aop.AuthorizingAnnotationHandler;
 import org.apache.shiro.authz.aop.AuthorizingAnnotationMethodInterceptor;
-import org.casbin.jcasbin.main.Enforcer;
-import org.casbin.shiro.authorize.rbac.annotation.PreAuthHandler;
+import org.casbin.shiro.authorize.rbac.annotation.auth.EnforcerAuthHandler;
 
 import java.lang.annotation.Annotation;
 
 /**
- * Interception processing class of PreAuth
+ * Interception processing class of EnforcerAuth.
  *
  * @author shy
  * @since 2021/01/19
  */
-public class PreAuthMethodInterceptor extends AuthorizingAnnotationMethodInterceptor {
+public class EnforcerAuthMethodInterceptor extends AuthorizingAnnotationMethodInterceptor {
 
     /**
      * Constructor that ensures the internal <code>handler</code> is set which will be used to perform the
      * authorization assertion checks when a supported annotation is encountered.
-     *
-     * @param e the enforcer.
-     *
      */
-    public PreAuthMethodInterceptor(Enforcer e) {
-        super(new PreAuthHandler(e));
+    public EnforcerAuthMethodInterceptor() {
+        super(new EnforcerAuthHandler());
     }
 
     /**
@@ -49,8 +45,8 @@ public class PreAuthMethodInterceptor extends AuthorizingAnnotationMethodInterce
      *
      * @param resolver An AOP-framework-independent way of determining if an Annotation exists on a Method.
      */
-    public PreAuthMethodInterceptor(Enforcer e, AnnotationResolver resolver) {
-        super(new PreAuthHandler(e), resolver);
+    public EnforcerAuthMethodInterceptor(AnnotationResolver resolver) {
+        super(new EnforcerAuthHandler(), resolver);
     }
 
     /**
@@ -67,10 +63,10 @@ public class PreAuthMethodInterceptor extends AuthorizingAnnotationMethodInterce
     @Override
     public void assertAuthorized(MethodInvocation mi) throws AuthorizationException {
         try {
-            ((PreAuthHandler) this.getHandler()).assertAuthorized(getAnnotation(mi));
+            ((EnforcerAuthHandler) this.getHandler()).assertAuthorized(getAnnotation(mi));
         } catch (AuthorizationException ae) {
             if (ae.getCause() == null) {
-                ae.initCause(new AuthorizationException(mi.getMethod() + "method does not pass authentication."));
+                ae.initCause(new AuthorizationException(mi.getMethod() + " method does not pass authentication."));
             }
             throw ae;
         }

@@ -8,5 +8,18 @@ jdk:
   - oraclejdk8
   - openjdk8
 
+before_script:
+  - sudo docker run --name=mssql-server-linux-latest -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=9G3iqmzQDw9zCXII' -p 1433:1433 -d microsoft/mssql-server-linux:2017-latest
+  - sudo docker exec -it mssql-server-linux-latest /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P '9G3iqmzQDw9zCXII' -Q "CREATE DATABASE casbin"
+
 after_success:
   - mvn clean test jacoco:report coveralls:report
+
+services:
+  - docker
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE casbin;'
+  - mysql -e "CREATE USER 'casbin_test'@'localhost' IDENTIFIED BY 'TEST_casbin';"
+  - mysql -e "GRANT ALL ON casbin.* TO 'casbin_test'@'localhost';"
