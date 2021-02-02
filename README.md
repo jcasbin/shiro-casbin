@@ -1,4 +1,5 @@
-# jcasbin-shiro-plugin
+# shiro-casbin
+
 Apache Shiro's RBAC &amp; ABAC Authorization Plug-in based on jCasbin
 
 ## How it works?
