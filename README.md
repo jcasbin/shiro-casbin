@@ -1,5 +1,12 @@
 # shiro-casbin
 
+[![codebeat badge](https://codebeat.co/badges/c2cae61f-cdf9-4ca4-b22e-cffd99a6006e)](https://codebeat.co/projects/github-com-jcasbin-shiro-casbin-master)
+[![Build Status](https://www.travis-ci.com/jcasbin/shiro-casbin.svg?branch=master)](https://www.travis-ci.com/jcasbin/shiro-casbin)
+[![Coverage Status](https://coveralls.io/repos/github/jcasbin/shiro-casbin/badge.svg?branch=master)](https://coveralls.io/github/jcasbin/shiro-casbin?branch=master)
+[![Javadocs](https://www.javadoc.io/badge/org.casbin/shiro-casbin.svg)](https://www.javadoc.io/doc/org.casbin/shiro-casbin)
+[![Maven Central](https://img.shields.io/maven-central/v/org.casbin/shiro-casbin.svg)](https://mvnrepository.com/artifact/org.casbin/shiro-casbin/latest)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/casbin/lobby)
+
 Apache Shiro's RBAC &amp; ABAC Authorization Plug-in based on jCasbin
 
 ## How it works?
