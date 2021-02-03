@@ -36,9 +36,9 @@
         </license>
     </licenses>
     <scm>
-        <url>https://github.com/jcasbin/jcasbin-shiro-plugin</url>
-        <connection>scm:git@github.com:jcasbin/jcasbin-shiro-plugin.git</connection>
-        <developerConnection>scm:git:https://github.com/jcasbin/jcasbin-shiro-plugin.git</developerConnection>
+        <url>https://github.com/jcasbin/shiro-casbin</url>
+        <connection>scm:git@github.com:jcasbin/shiro-casbin.git</connection>
+        <developerConnection>scm:git:https://github.com/jcasbin/shiro-casbin.git</developerConnection>
     </scm>
     <developers>
         <developer>
