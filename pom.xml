@@ -4,7 +4,7 @@
 
     <groupId>org.jcasbin</groupId>
     <artifactId>shiro-casbin</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <name>Shiro Casbin Plugin for JCasbin</name>
     <description>Apache Shiro's RBAC Plug-in based on jCasbin</description>
@@ -36,7 +36,7 @@
     <scm>
         <url>https://github.com/jcasbin/shiro-casbin</url>
         <connection>scm:git@github.com:jcasbin/shiro-casbin.git</connection>
-        <developerConnection>scm:git:https://github.com/jcasbin/shiro-casbin.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/jcasbin/shiro-casbin. git</developerConnection>
     </scm>
     <developers>
         <developer>
