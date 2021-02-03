@@ -8,19 +8,19 @@
     <artifactId>shiro-casbin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Jcasbin Shiro Plugin for JCasbin</name>
-    <description>Apache Shiro's RBAC and ABAC Authorization Plug-in based on jCasbin</description>
-    <url>https://github.com/shy1st/jcasbin-shiro-plugin</url>
-    <inceptionYear>2018</inceptionYear>
+    <name>Shiro Casbin Plugin for JCasbin</name>
+    <description>Apache Shiro's RBAC Plug-in based on jCasbin</description>
+    <url>https://github.com/jcasbin/shiro-casbin</url>
+    <inceptionYear>2021</inceptionYear>
 
     <issueManagement>
         <system>Github</system>
-        <url>https://github.com/jcasbin/jcasbin-shiro-plugin/issues</url>
+        <url>https://github.com/jcasbin/shiro-casbin/issues</url>
     </issueManagement>
 
     <ciManagement>
         <system>Travis CI</system>
-        <url>https://travis-ci.org/jcasbin/jcasbin-shiro-plugin</url>
+        <url>https://travis-ci.org/jcasbin/shiro-casbin</url>
     </ciManagement>
 
     <parent>
