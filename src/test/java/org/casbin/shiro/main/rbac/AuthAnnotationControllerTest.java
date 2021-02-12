@@ -14,9 +14,7 @@
 
 package org.casbin.shiro.main.rbac;
 
-import org.casbin.adapter.JDBCAdapter;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +23,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
-
-import static org.casbin.shiro.factory.EnforcerFactory.getEnforcer;
-import static org.casbin.shiro.factory.EnforcerFactory.getJdbcAdapter;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -41,19 +35,6 @@ public class AuthAnnotationControllerTest {
     private TestRestTemplate restTemplate;
 
     private HttpEntity<String> httpEntity;
-
-    @Before
-    public void before() {
-        JDBCAdapter jdbcAdapter = getJdbcAdapter();
-
-        jdbcAdapter.removePolicy("p", "p" , Arrays.asList("alice", "/data1", "GET"));
-        jdbcAdapter.removePolicy("p", "p" , Arrays.asList("bob", "/data2", "POST"));
-
-        jdbcAdapter.addPolicy("p", "p" , Arrays.asList("alice", "/data1", "GET"));
-        jdbcAdapter.addPolicy("p", "p" , Arrays.asList("bob", "/data2", "POST"));
-
-        getEnforcer().loadPolicy();
-    }
 
     @Test
     public void testAuthAnnotationController() {

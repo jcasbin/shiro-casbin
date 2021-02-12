@@ -19,10 +19,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @author shy
  */
-@ConfigurationProperties(prefix = "shiro-jcasbin")
+@ConfigurationProperties(prefix = "shiro-casbin")
 public class EnforcerConfigProperties {
     private String modelPath;
-    private String policyTable;
+    private String policyPath;
 
     public String getModelPath() {
         return modelPath;
@@ -32,11 +32,11 @@ public class EnforcerConfigProperties {
         this.modelPath = modelPath;
     }
 
-    public String getPolicyTable() {
-        return policyTable;
+    public String getPolicyPath() {
+        return policyPath;
     }
 
-    public void setPolicyTable(String policyTable) {
-        this.policyTable = policyTable;
+    public void setPolicyPath(String policyPath) {
+        this.policyPath = policyPath;
     }
 }
