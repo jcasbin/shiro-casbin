@@ -13,7 +13,7 @@ before_script:
   - sudo docker exec -it mssql-server-linux-latest /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P '9G3iqmzQDw9zCXII' -Q "CREATE DATABASE casbin"
 
 after_success:
-  - mvn clean test jacoco:report coveralls:report
+  - mvn clean test jacoco:report coveralls:report -DrepoToken="${COVERALLS_TOKEN}"
 
 services:
   - docker
