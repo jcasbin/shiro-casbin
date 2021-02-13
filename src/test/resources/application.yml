@@ -1,5 +1,6 @@
-shiro-jcasbin:
+shiro-casbin:
   modelPath: src/test/resources/model/rbac_model.conf
+  policyPath: src/test/resources/model/rbac_policy.csv
 
 spring:
   datasource:
@@ -7,6 +8,3 @@ spring:
     url: jdbc:mysql://localhost:3306/casbin?serverTimezone=GMT%2B8
     username: casbin_test
     password: TEST_casbin
-
-
-

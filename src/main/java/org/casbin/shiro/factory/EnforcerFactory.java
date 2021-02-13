@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * When the container is loaded, it is initialized to load the information in the configuration file.
@@ -54,8 +55,8 @@ public class EnforcerFactory implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         jdbcAdapter = new JDBCAdapter(driver, url, username, password);
-        enforcer = new Enforcer(properties.getModelPath(), jdbcAdapter);
-        enforcer.loadPolicy();
+        enforcer = new Enforcer(properties.getModelPath(), properties.getPolicyPath());
+        jdbcAdapter.savePolicy(enforcer.getModel());
     }
 
     public static Enforcer getEnforcer() {
