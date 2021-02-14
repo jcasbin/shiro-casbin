@@ -24,6 +24,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
+import javax.sql.DataSource;
+
 /**
  * When the container is loaded, it is initialized to load the information in the configuration file.
  *
@@ -37,24 +39,15 @@ public class EnforcerFactory implements InitializingBean {
     private static Enforcer enforcer;
     private static JDBCAdapter jdbcAdapter;
 
-    @Value("${spring.datasource.driver-class-name}")
-    private String driver;
-
-    @Value("${spring.datasource.url}")
-    private String url;
-
-    @Value("${spring.datasource.username}")
-    private String username;
-
-    @Value("${spring.datasource.password}")
-    private String password;
-
     @Autowired
     private EnforcerConfigProperties properties;
 
+    @Autowired
+    private DataSource dataSource;
+
     @Override
     public void afterPropertiesSet() throws Exception {
-        jdbcAdapter = new JDBCAdapter(driver, url, username, password);
+        jdbcAdapter = new JDBCAdapter(dataSource);
         enforcer = new Enforcer(properties.getModelPath(), properties.getPolicyPath());
         jdbcAdapter.savePolicy(enforcer.getModel());
     }
