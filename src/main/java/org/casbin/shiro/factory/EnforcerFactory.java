@@ -19,12 +19,12 @@ import org.casbin.jcasbin.main.Enforcer;
 import org.casbin.shiro.config.EnforcerConfigProperties;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 
 import javax.sql.DataSource;
+import java.io.FileNotFoundException;
 
 /**
  * When the container is loaded, it is initialized to load the information in the configuration file.
@@ -45,10 +45,15 @@ public class EnforcerFactory implements InitializingBean {
     @Autowired
     private DataSource dataSource;
 
+    /**
+     * Initialize the JDBCAdapter and Enforcer.
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         jdbcAdapter = new JDBCAdapter(dataSource);
-        enforcer = new Enforcer(properties.getModelPath(), properties.getPolicyPath());
+        String modelPath = getResourcePath(this.properties.getModelPath());
+        String policyPath = getResourcePath(this.properties.getPolicyPath());
+        enforcer = new Enforcer(modelPath, policyPath);
         jdbcAdapter.savePolicy(enforcer.getModel());
     }
 
@@ -58,5 +63,22 @@ public class EnforcerFactory implements InitializingBean {
 
     public static JDBCAdapter getJdbcAdapter() {
         return jdbcAdapter;
+    }
+
+    /**
+     * Get the resource path which can used by enforcer.
+     *
+     * @param resourcePath the path in the configuration.
+     * @return path;
+     * @throws FileNotFoundException the resource path exists error.
+     */
+    private String getResourcePath(String resourcePath) throws FileNotFoundException {
+        String path;
+        if (ResourceUtils.isUrl(resourcePath)) {
+            path = ResourceUtils.getURL(resourcePath).getPath();
+        } else {
+            path = resourcePath;
+        }
+        return path;
     }
 }

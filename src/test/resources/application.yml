@@ -1,6 +1,6 @@
 shiro-casbin:
-  modelPath: src/test/resources/model/rbac_model.conf
-  policyPath: src/test/resources/model/rbac_policy.csv
+  modelPath: classpath:casbin/rbac_model.conf
+  policyPath: classpath:casbin/rbac_policy.csv
 
 spring:
   datasource:
