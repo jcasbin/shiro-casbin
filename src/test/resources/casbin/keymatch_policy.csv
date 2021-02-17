@@ -1,0 +1,4 @@
+p, admin, /data/*, (GET|POST)
+p, common, /data/data1, GET
+g, alice, admin
+g, bob, common

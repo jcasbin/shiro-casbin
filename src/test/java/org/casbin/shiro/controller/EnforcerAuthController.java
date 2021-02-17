@@ -17,7 +17,7 @@ package org.casbin.shiro.controller;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.casbin.shiro.authorize.rbac.annotation.auth.EnforcerAuth;
+import org.casbin.shiro.authorize.rbac.annotation.auth.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,13 +40,13 @@ public class EnforcerAuthController {
     }
 
     @EnforcerAuth
-    @GetMapping("/data1")
+    @GetMapping("/data/data1")
     public String function1() {
         return "success";
     }
 
     @EnforcerAuth
-    @PostMapping("/data2")
+    @PostMapping("/data/data2")
     public String function2() {
         return "success";
     }

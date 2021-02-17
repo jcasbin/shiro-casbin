@@ -15,8 +15,8 @@
 package org.casbin.shiro.advisor;
 
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
-import org.casbin.shiro.authorize.rbac.annotation.auth.EnforcerAuth;
-import org.casbin.shiro.authorize.rbac.annotation.auth.interceptor.EnforcerAuthAopInterceptor;
+import org.casbin.shiro.authorize.rbac.annotation.auth.*;
+import org.casbin.shiro.authorize.rbac.annotation.auth.interceptor.*;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import java.lang.reflect.Method;
