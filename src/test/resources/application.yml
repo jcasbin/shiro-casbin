@@ -1,10 +1,11 @@
-shiro-casbin:
-  modelPath: classpath:casbin/rbac_model.conf
-  policyPath: classpath:casbin/rbac_policy.csv
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/casbin?serverTimezone=GMT%2B8
     username: casbin_test
     password: TEST_casbin
+
+shiro-casbin:
+  model-path: classpath:casbin/keymatch_model.conf
+  policy-path: classpath:casbin/keymatch_policy.csv
+  user-name-method-name: getUsername

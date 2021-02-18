@@ -17,12 +17,16 @@ package org.casbin.shiro.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * shiro-casbin configuration properties.
+ *
  * @author shy
+ * @since 2021/02/17
  */
 @ConfigurationProperties(prefix = "shiro-casbin")
 public class EnforcerConfigProperties {
     private String modelPath;
     private String policyPath;
+    private String userNameMethodName;
 
     public String getModelPath() {
         return modelPath;
@@ -38,5 +42,13 @@ public class EnforcerConfigProperties {
 
     public void setPolicyPath(String policyPath) {
         this.policyPath = policyPath;
+    }
+
+    public String getUserNameMethodName() {
+        return userNameMethodName;
+    }
+
+    public void setUserNameMethodName(String userNameMethodName) {
+        this.userNameMethodName = userNameMethodName;
     }
 }

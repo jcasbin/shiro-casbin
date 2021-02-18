@@ -20,17 +20,28 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.casbin.shiro.advisor.ShiroAdvisor;
+import org.casbin.shiro.realm.UserRealm;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 @Configuration
 public class ShiroConfig {
 
+    /**
+     * IniRealm is for tests without user name method name
+     */
     @Bean
     public IniRealm realm() {
         return new IniRealm("classpath:shiro.ini");
+    }
+
+    /**
+     * UserRealm is for tests without user name method name
+     */
+    @Bean
+    public UserRealm userRealm() {
+        return new UserRealm();
     }
 
     @Bean
@@ -44,6 +55,7 @@ public class ShiroConfig {
     public DefaultWebSecurityManager securityManager() throws Exception {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm());
+        securityManager.setRealm(userRealm());
         return securityManager;
     }
 

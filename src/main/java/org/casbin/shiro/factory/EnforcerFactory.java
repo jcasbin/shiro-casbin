@@ -16,7 +16,8 @@ package org.casbin.shiro.factory;
 
 import org.casbin.adapter.JDBCAdapter;
 import org.casbin.jcasbin.main.Enforcer;
-import org.casbin.shiro.config.EnforcerConfigProperties;
+import org.casbin.jcasbin.persist.file_adapter.FileAdapter;
+import org.casbin.shiro.config.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -38,6 +39,7 @@ public class EnforcerFactory implements InitializingBean {
 
     private static Enforcer enforcer;
     private static JDBCAdapter jdbcAdapter;
+    private static String userMethodName;
 
     @Autowired
     private EnforcerConfigProperties properties;
@@ -51,10 +53,13 @@ public class EnforcerFactory implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         jdbcAdapter = new JDBCAdapter(dataSource);
-        String modelPath = getResourcePath(this.properties.getModelPath());
-        String policyPath = getResourcePath(this.properties.getPolicyPath());
-        enforcer = new Enforcer(modelPath, policyPath);
+        String modelPath = getResourcePath(properties.getModelPath());
+        String policyPath = getResourcePath(properties.getPolicyPath());
+        FileAdapter fileAdapter = new FileAdapter(policyPath);
+        enforcer = new Enforcer(modelPath, fileAdapter);
         jdbcAdapter.savePolicy(enforcer.getModel());
+        jdbcAdapter.close();
+        userMethodName = properties.getUserNameMethodName();
     }
 
     public static Enforcer getEnforcer() {
@@ -63,6 +68,10 @@ public class EnforcerFactory implements InitializingBean {
 
     public static JDBCAdapter getJdbcAdapter() {
         return jdbcAdapter;
+    }
+
+    public static String getUserMethodName() {
+        return userMethodName;
     }
 
     /**

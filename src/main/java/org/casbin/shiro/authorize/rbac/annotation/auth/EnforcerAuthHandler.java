@@ -18,11 +18,15 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.aop.AuthorizingAnnotationHandler;
 import org.apache.shiro.web.subject.support.WebDelegatingSubject;
+import org.casbin.shiro.util.LogUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static org.casbin.shiro.factory.EnforcerFactory.getEnforcer;
+import static org.casbin.shiro.factory.EnforcerFactory.getUserMethodName;
 
 
 /**
@@ -32,7 +36,6 @@ import static org.casbin.shiro.factory.EnforcerFactory.getEnforcer;
  * @since 2021/01/19
  */
 public class EnforcerAuthHandler extends AuthorizingAnnotationHandler {
-
 
     /**
      * Constructs an <code>AuthorizingAnnotationHandler</code> who processes annotations of the
@@ -64,7 +67,25 @@ public class EnforcerAuthHandler extends AuthorizingAnnotationHandler {
                 HttpServletRequest request = (HttpServletRequest) subject.getServletRequest();
                 String path = request.getServletPath();
                 String method = request.getMethod();
-                boolean hasPermission = getEnforcer().enforce(subject.getPrincipal().toString(), path, method);
+                boolean hasPermission = false;
+                if (getUserMethodName() == null) {
+                    hasPermission = getEnforcer().enforce(subject.getPrincipal().toString(), path, method);
+                } else {
+                    // using reflection to call the specified method.
+                    Object principal = subject.getPrincipal();
+                    Class<?> principalClass = principal.getClass();
+                    Object principalCast = principalClass.cast(principal);
+                    String userName;
+                    try {
+                        Method principalMethod = principalClass.getMethod(getUserMethodName());
+                        userName = (String) principalMethod.invoke(principalCast);
+                        hasPermission = getEnforcer().enforce(userName, path, method);
+                    } catch (NoSuchMethodException e) {
+                        LogUtil.logPrintfError("Incorrect userNameMethodName");
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
                 if (!hasPermission) {
                     throw new UnauthorizedException("No permission to access this interface");
                 }

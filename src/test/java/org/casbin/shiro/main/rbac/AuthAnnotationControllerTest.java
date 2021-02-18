@@ -26,7 +26,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.HashMap;
 import java.util.Objects;
 
-
+/**
+ * Test with user-name-method-name property.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 public class AuthAnnotationControllerTest {
@@ -42,22 +44,22 @@ public class AuthAnnotationControllerTest {
         // alice login
         login("/login?username=alice&password=123");
         // test api data1
-        responseEntity = restTemplate.exchange("/data1", HttpMethod.GET, httpEntity, String.class);
+        responseEntity = restTemplate.exchange("/data/data1", HttpMethod.GET, httpEntity, String.class);
         Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
         // test api data2
-        responseEntity = restTemplate.exchange("/data2", HttpMethod.POST, httpEntity, String.class);
-        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        responseEntity = restTemplate.exchange("/data/data2", HttpMethod.POST, httpEntity, String.class);
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
         // alice logout
         logout();
 
         // bob login
         login("/login?username=bob&password=123");
         // test api data1
-        responseEntity = restTemplate.exchange("/data1", HttpMethod.GET, httpEntity, String.class);
-        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
-        // test api data2
-        responseEntity = restTemplate.exchange("/data2", HttpMethod.POST, httpEntity, String.class);
+        responseEntity = restTemplate.exchange("/data/data1", HttpMethod.GET, httpEntity, String.class);
         Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        // test api data2
+        responseEntity = restTemplate.exchange("/data/data2", HttpMethod.POST, httpEntity, String.class);
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         // bob logout
         logout();
     }
@@ -78,3 +80,4 @@ public class AuthAnnotationControllerTest {
         Assert.assertEquals(result, "success");
     }
 }
+
