@@ -49,7 +49,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jcasbin.version>1.6.2</jcasbin.version>
-        <shiro-spring.version>1.4.0</shiro-spring.version>
+        <shiro-spring.version>1.7.0</shiro-spring.version>
         <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
         <jdbc-adapter.version>2.0.1</jdbc-adapter.version>
         <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
