@@ -3,7 +3,7 @@ name: build
 env:
   CI: true
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
   build:
@@ -39,13 +39,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with: 
+        with:
           fetch-depth: 0
       - name: Setup java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '8'
+          server-id: ossrh
+          server-username: OSSRH_JIRA_USERNAME
+          server-password: OSSRH_JIRA_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+
       # - name: Setup docker
       #   uses: docker-practice/actions-setup-docker@v1
       # - name: mysql
@@ -53,7 +59,7 @@ jobs:
       #     mysql -e 'CREATE DATABASE casbin;'
       #     mysql -e "CREATE USER 'casbin_test'@'localhost' IDENTIFIED BY 'TEST_casbin';"
       #     mysql -e "GRANT ALL ON casbin.* TO 'casbin_test'@'localhost';"
-        
+
       # - name: sql-server
       #   run: |
       #     sudo docker run --name=mssql-server-linux-latest -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=9G3iqmzQDw9zCXII' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest
@@ -66,3 +72,14 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Semantic Release
+        run: |
+          npm install -g @conveyal/maven-semantic-release semantic-release
+          semantic-release --prepare @conveyal/maven-semantic-release --publish @semantic-release/github,@conveyal/maven-semantic-release --verify-conditions @semantic-release/github,@conveyal/maven-semantic-release --verify-release @conveyal/maven-semantic-release
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GPG_KEY_NAME: ${{ secrets.GPG_KEY_NAME }}
+            GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+            OSSRH_JIRA_USERNAME: ${{ secrets.OSSRH_JIRA_USERNAME }}
+            OSSRH_JIRA_PASSWORD: ${{ secrets.OSSRH_JIRA_PASSWORD }}
