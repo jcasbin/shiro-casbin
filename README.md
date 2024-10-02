@@ -38,7 +38,7 @@ spring:
 
 **2.Enable annotation interception**
 
-You need to enable annotation interception in Shiro's configuration file.As for annotation startup classes, please use the ShiroAdvisor, like this:
+You need to enable annotation interception in Shiro's configuration file. As for annotation startup classes, please use the ShiroAdvisor, like this:
 
 ```java
 @Configuration
