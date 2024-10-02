@@ -73,6 +73,11 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20
+
       - name: Semantic Release
         run: |
           npm install -g @conveyal/maven-semantic-release semantic-release
@@ -82,4 +87,4 @@ jobs:
           GPG_KEY_NAME: ${{ secrets.GPG_KEY_NAME }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSWORD }}
           OSSRH_JIRA_USERNAME: ${{ secrets.OSSRH_JIRA_USERNAME }}
-          OSSRH_JIRA_PASSWORD: ${{ secrets.OSSRH_JIRA_USERNAME }}
+          OSSRH_JIRA_PASSWORD: ${{ secrets.OSSRH_JIRA_PASSWORD }}
