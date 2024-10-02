@@ -49,7 +49,7 @@ jobs:
           server-id: ossrh
           server-username: OSSRH_JIRA_USERNAME
           server-password: OSSRH_JIRA_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY_ASCII }}
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
 
       # - name: Setup docker
