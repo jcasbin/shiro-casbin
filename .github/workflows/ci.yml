@@ -81,5 +81,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GPG_KEY_NAME: ${{ secrets.GPG_KEY_NAME }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSWORD }}
-          OSSRH_JIRA_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_JIRA_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          OSSRH_JIRA_USERNAME: ${{ secrets.OSSRH_JIRA_USERNAME }}
+          OSSRH_JIRA_PASSWORD: ${{ secrets.OSSRH_JIRA_USERNAME }}
